@@ -29,9 +29,16 @@ if os.path.exists(os.path.join(BASE_DIR, "envs.json")):
             print(error_msg)
 
     TELEGRAM_TOKEN = get_env('TELEGRAM_TOKEN', envs)
+    SNUE_ID = get_env('SNUE_ID', envs)
+    SNUE_PW = get_env('SNUE_PW', envs)
+
+    TEST_ID = get_env('TEST_ID', envs)
 
 else:
     TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN', '')
+    TEST_ID = os.environ.get('TEST_ID', '')
+    SNUE_ID = os.environ.get('SNUE_ID', '')
+    SNUE_PW = os.environ.get('SNUE_PW', '')
 
 
 # Quick-start development settings - unsuitable for production
