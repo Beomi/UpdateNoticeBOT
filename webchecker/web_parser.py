@@ -5,7 +5,7 @@ import pytz
 def _get_contents(usr_id, usr_pw):
     # Base Setup
     driver = webdriver.PhantomJS(executable_path='phantomjs', service_args=['--ignore-ssl-errors=true'])
-    driver.implicitly_wait(3)
+    driver.implicitly_wait(1)
     base_url = 'https://portal.snue.ac.kr/'
 
     # Login
@@ -17,7 +17,7 @@ def _get_contents(usr_id, usr_pw):
     driver.find_element_by_xpath('//*[@id="btn_login"]/input').click()
 
     # Get HTML
-    driver.get(base_url + 'enview/snue/SNUE06.face?cutLength=200&pageSize=10')
+    driver.get(base_url + 'enview/snue/SNUE06.face?cutLength=200&pageSize=100')
     titles = driver.find_elements_by_xpath('/html/body/div/ul/li/a')
     dates = driver.find_elements_by_xpath('/html/body/div/ul/li/span')
 

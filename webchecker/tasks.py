@@ -12,13 +12,11 @@ bot = telegram.Bot(token=settings.TELEGRAM_TOKEN)   #bot을 선언합니다.
 
 @shared_task
 def get_updates():
-    latest = bot.getUpdates()[-1]
-    chat_id = latest.message.chat.id
-    bot.sendMessage(chat_id=chat_id, text=latest.message.text)
+    chat_id = settings.TEST_ID
+    bot.sendMessage(chat_id=chat_id, text='resp')
 
 @shared_task
 def new_noti():
-    bot.send_message(chat_id=settings.TEST_ID, text='progress...')
     news = _get_contents(settings.SNUE_ID, settings.SNUE_PW)
     latest_db_data = ParsedData.objects.last()
     if news[0].get('py_date') > latest_db_data.py_date:
