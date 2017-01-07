@@ -5,4 +5,8 @@ django.setup()
 
 from webchecker.models import ParsedData
 
-print(ParsedData.objects.all())
+f = open('some.txt','w+')
+f.write(str(ParsedData.objects.all()))
+f.close()
+
+print('finish')
