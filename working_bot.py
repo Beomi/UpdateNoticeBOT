@@ -11,13 +11,13 @@ from webchecker.models import ParsedData
 from webchecker.web_parser import _get_contents
 
 news = _get_contents(settings.SNUE_ID, settings.SNUE_PW)
-latest_db_data = ParsedData.objects.last()
+latest_db_data = ParsedData.objects.all().order_by('py_date').last()
 
 bot = telegram.Bot(token=settings.TELEGRAM_TOKEN)   #bot을 선언합니다.
 
 def push_telegram():
     if news[0].get('py_date') > latest_db_data.py_date:
-        for n in news:
+        for n in reversed(news):
             title = n.get('title')
             date = n.get('date')
             py_date = n.get('py_date')
