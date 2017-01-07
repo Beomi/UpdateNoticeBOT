@@ -32,3 +32,5 @@ def push_telegram():
                         title, date, url
                     )
                 )
+
+push_telegram()
