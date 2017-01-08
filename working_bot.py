@@ -28,7 +28,7 @@ def push_telegram():
             if py_date > latest_db_data.py_date:
                 PD = ParsedData(title=title, date=date, url=url, py_date=py_date)
                 PD.save()
-                for guest in Guest.objects.filter(using_options=Option.objects.get('NOTICE')):
+                for guest in Guest.objects.filter(options='notice'):
                     bot.send_message(
                         chat_id=guest.telegram_id,
                         text="{}\n{}\n{}".format(
