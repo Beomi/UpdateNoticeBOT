@@ -62,7 +62,7 @@ def help(bot, update):
     if options.count() > 0:
         option_list = ''
         for num, i in enumerate(options, start=1):
-            option_list += (str(num) + '. ' + i.name + ' : ' + i.description + '\n')
+            option_list += (str(num) + '. /' + i.name + ' : ' + i.description + '\n')
         update.message.reply_text(
             '현재 이용중이신 서비스는 {}가지 입니다.\n'
             '{}'
@@ -80,7 +80,7 @@ def help(bot, update):
     if unused_options.count() > 0:
         unused_option_list = ''
         for num, i in enumerate(unused_options, start=1):
-            unused_option_list += (str(num) + '. ' + i.name + ' : ' + i.description + '\n')
+            unused_option_list += (str(num) + '. /' + i.name + ' : ' + i.description + '\n')
 
         update.message.reply_text(
             '현재 이용가능한 서비스는 {}가지가 있습니다.\n'
@@ -97,6 +97,45 @@ def help(bot, update):
             '감사합니다 :)'
         )
 
+def notice(bot, update):
+    chat = update.message['chat']
+    telegram_id = chat['id']
+
+    guest = Guest.objects.get(telegram_id=telegram_id)
+    notice = Option.objects.get(name='notice')
+    if notice in guest.using_options:
+        update.message.reply_text(
+            '이미 SNUE 공지 알림에 등록되어 있습니다!\n'
+            '새로운 공지사항이 오는 경우 즉시 알려드리고 있습니다 :)\n'
+            '만약 알림을 받기를 원하지 않으신다면 /notice_stop 을 터치해주세요.'
+        )
+    else:
+        guest.options.add(notice)
+        guest.save()
+        update.message.reply_text(
+                'SNUE 공지 알림이 성공적으로 등록되었습니다!\n'
+                '이시간 이후로 새로운 공지사항이 오는 경우 즉시 알려드리겠습니다 :)\n'
+                '더 상세한 안내가 필요하시면 /help 를 입력해주세요!'
+            )
+
+def notice_stop(bot, update):
+    chat = update.message['chat']
+    telegram_id = chat['id']
+
+    guest = Guest.objects.get(telegram_id=telegram_id)
+    notice = Option.objects.get(name='notice')
+    if notice in guest.using_options:
+        guest.options.remove(notice)
+        guest.save()
+        update.message.reply_text(
+            'SNUE 공지 알람을 끄셨습니다.\n'
+            '만약 알림을 다시 받으시려면 /notice 를 터치해주세요.'
+        )
+    else:
+        update.message.reply_text(
+            '아직 SNUE 공지 알람에 등록되어있지 않습니다.\n'
+            '더 상세한 안내가 필요하시면 /help 를 입력해주세요!'
+        )
 
 
 updater = Updater(settings.TELEGRAM_TOKEN)
@@ -104,6 +143,10 @@ updater = Updater(settings.TELEGRAM_TOKEN)
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(CommandHandler('hello', hello))
 updater.dispatcher.add_handler(CommandHandler('help', help))
+updater.dispatcher.add_handler(CommandHandler('notice', notice))
+updater.dispatcher.add_handler(CommandHandler('notice_stop', notice_stop))
+
+
 
 
 updater.start_polling()
