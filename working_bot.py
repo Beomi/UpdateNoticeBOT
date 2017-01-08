@@ -8,6 +8,8 @@ import telegram
 
 
 from webchecker.models import ParsedData
+from webchecker.models import Guest
+from webchecker.models import Option
 from webchecker.web_parser import _get_contents
 
 news = _get_contents(settings.SNUE_ID, settings.SNUE_PW)
@@ -26,11 +28,12 @@ def push_telegram():
             if py_date > latest_db_data.py_date:
                 PD = ParsedData(title=title, date=date, url=url, py_date=py_date)
                 PD.save()
-                bot.send_message(
-                    chat_id=settings.TEST_ID,
-                    text="{}\n{}\n{}".format(
-                        title, date, url
+                for guest in Guest.objects.filter(using_options=Option.objects.get('NOTICE')):
+                    bot.send_message(
+                        chat_id=guest.telegram_id,
+                        text="{}\n{}\n{}".format(
+                            title, date, url
+                        )
                     )
-                )
 
 push_telegram()
