@@ -24,16 +24,13 @@ def start(bot, update):
     for num, i in enumerate(options, start=1):
         option_list += (str(num) + '. /[' + i.name + '] : ' + i.description + '\n')
 
-    if is_created:
-        update.message.reply_text(
-            '안녕하세요,\n'
-            'SNUE알림봇을 추가해주셔서 감사합니다.\n'
-            'SNUE알림봇에는 여러 기능이 있습니다.\n'
-            '원하는 기능을 터치해 서비스를 받아보세요.'
-            '{}\n'.format(option_list))
-        update.message.reply_text('자세한 안내가 필요하시면 [/help]를 터치해주세요!')
-    else:
-        update.message.reply_text('자세한 안내가 필요하시면 [/help]를 터치해주세요.')
+    update.message.reply_text(
+        '안녕하세요,\n'
+        'SNUE알림봇을 추가해주셔서 감사합니다.\n'
+        'SNUE알림봇에는 여러 기능이 있습니다.\n'
+        '원하는 기능을 터치해 서비스를 받아보세요.'
+        '{}\n'.format(option_list))
+    update.message.reply_text('자세한 안내가 필요하시면 [/help]를 터치해주세요!')
 
 def hello(bot, update):
     update.message.reply_text(
