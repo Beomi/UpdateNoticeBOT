@@ -113,10 +113,13 @@ def notice(bot, update):
         guest.options.add(notice)
         guest.save()
         update.message.reply_text(
-                'SNUE 공지 알림이 성공적으로 등록되었습니다!\n'
-                '이시간 이후로 새로운 공지사항이 오는 경우 즉시 알려드리겠습니다 :)\n'
-                '더 상세한 안내가 필요하시면 /help 를 입력해주세요!'
-            )
+            'SNUE 공지 알림이 성공적으로 등록되었습니다!\n'
+            '이시간 이후로 새로운 공지사항이 오는 경우 즉시 알려드리겠습니다 :)\n'
+            '만약 알림을 받기를 원하지 않으신다면 /notice_stop 을 터치해주세요.'
+        )
+        update.message.reply_text(
+            '다른 기능을 추가로 이용하시려면 /help 를 터치해주세요.'
+        )
 
 def notice_stop(bot, update):
     chat = update.message['chat']
