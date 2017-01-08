@@ -14,21 +14,18 @@ def start(bot, update):
     telegram_id = chat['id']
 
     guest, is_created = Guest.objects.get_or_create(telegram_id=telegram_id)
-
-    print(guest, is_created)
-
-    latest_db_data = ParsedData.objects.all().order_by('py_date').last()
+    guest.save()
 
     options = Option.objects.all()
     option_list = ''
     for num, i in enumerate(options, start=1):
-        option_list += (str(num) + '. /[' + i.name + '] : ' + i.description + '\n')
+        option_list += (str(num) + '. [/' + i.name + ']: ' + i.description + '\n')
 
     update.message.reply_text(
         '안녕하세요,\n'
         'SNUE알림봇을 추가해주셔서 감사합니다.\n'
         'SNUE알림봇에는 여러 기능이 있습니다.\n'
-        '원하는 기능을 터치해 서비스를 받아보세요.'
+        '원하는 기능을 터치해 서비스를 받아보세요.\n'
         '{}\n'.format(option_list))
     update.message.reply_text('자세한 안내가 필요하시면 [/help]를 터치해주세요!')
 
