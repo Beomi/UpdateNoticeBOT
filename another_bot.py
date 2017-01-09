@@ -120,141 +120,163 @@ def notice_stop(bot, update):
         )
 
 def cafeteria_morning(bot, update):
+    name = 'morning'
+    ko_name = '아침'
     telegram_id = update.message['chat']['id']
     guest = Guest.objects.get(telegram_id=telegram_id)
-    morning = CafeMealTime.objects.get(meal='morning')
+    option = Option.objects.get(name='cafeteria_{}'.format(name))
+    meal_time = CafeMealTime.objects.get(meal=name)
     today_meal = CafeMenuInfo.objects.get(date=datetime.now()).get_menu()[0] # 0, 1, 2
-    if morning in guest.meal_time:
+    if meal_time in guest.meal_time.all():
         update.message.reply_text(
-            '이미 아침 학식알림을 받아보고 계시네요!\n'
-            '만약 아침 학식 알림을 더이상 받지않으시려면,\n'
-            '[/cafeteria_morning_stop]을 눌러주세요.'
+            '이미 {} 학식알림을 받아보고 계시네요!\n'
+            '만약 {} 학식 알림을 더이상 받지않으시려면,\n'
+            '[/cafeteria_{}_stop]을 눌러주세요.'.format(ko_name, ko_name, name)
         )
         update.message.reply_text(
-            '오늘의 아침 학식은\n{}입니다.'.format(today_meal)
+            '오늘의 {} 학식은\n{}입니다.'.format(ko_name, today_meal)
         )
     else:
-        guest.meal_time.add(morning)
+        guest.meal_time.add(meal_time)
+        guest.options.add(option)
+        guest.save()
         update.message.reply_text(
-            '아침 학식 알림이 등록되었습니다!\n'
-            '매일 7:30AM에 오늘의 아침학식을 알려드릴게요.\n'
-            '만약 아침 학식 알림을 더이상 받지않으시려면,\n'
-            '[/cafeteria_morning_stop]을 눌러주세요.'
+            '{} 학식 알림이 등록되었습니다!\n'
+            '매일 오늘의 {}학식을 알려드릴게요.\n'
+            '만약 {} 학식 알림을 더이상 받지않으시려면,\n'
+            '[/cafeteria_{}_stop]을 눌러주세요.'.format(ko_name, ko_name, ko_name, name)
         )
         update.message.reply_text(
-            '오늘의 아침 학식은\n{}입니다.'.format(today_meal)
+            '오늘의 {} 학식은\n{}입니다.'.format(ko_name, today_meal)
         )
 
 def cafeteria_morning_stop(bot, update):
+    name = 'morning'
+    ko_name = '아침'
     telegram_id = update.message['chat']['id']
     guest = Guest.objects.get(telegram_id=telegram_id)
-    morning = CafeMealTime.objects.get(meal='morning')
-    if morning in guest.meal_time:
-        guest.meal_time.remove(morning)
+    option = Option.objects.get(name='cafeteria_{}'.format(name))
+    meal_time = CafeMealTime.objects.get(meal=name)
+    if meal_time in guest.meal_time.all():
+        guest.meal_time.remove(meal_time)
+        guest.options.remove(option)
         update.message.reply_text(
-            '아침 학식알림을 끄셨습니다.\n'
-            '만약 아침 학식 알림을 다시 받으시려면,\n'
-            '[/cafeteria_morning]을 눌러주세요.'
+            '{} 학식알림을 끄셨습니다.\n'
+            '만약 {} 학식 알림을 다시 받으시려면,\n'
+            '[/cafeteria_{}]을 눌러주세요.'.format(ko_name,ko_name,name)
         )
     else:
-        guest.meal_time.add(morning)
         update.message.reply_text(
-            '아직 아침 학식알림을 켜지 않으셨습니다!\n'
-            '매일 7:30AM에 아침학식 알림을 받으시려면,\n'
-            '[/cafeteria_morning]을 눌러주세요.'
+            '아직 {} 학식알림을 켜지 않으셨습니다!\n'
+            '매일 {}학식 알림을 받으시려면,\n'
+            '[/cafeteria_{}]을 눌러주세요.'.format(ko_name, ko_name, name)
         )
 
 def cafeteria_lunch(bot, update):
+    name = 'lunch'
+    ko_name = '점심'
     telegram_id = update.message['chat']['id']
     guest = Guest.objects.get(telegram_id=telegram_id)
-    lunch = CafeMealTime.objects.get(meal='lunch')
+    option = Option.objects.get(name='cafeteria_{}'.format(name))
+    meal_time = CafeMealTime.objects.get(meal=name)
     today_meal = CafeMenuInfo.objects.get(date=datetime.now()).get_menu()[1] # 0, 1, 2
-    if lunch in guest.meal_time:
+    if meal_time in guest.meal_time.all():
         update.message.reply_text(
-            '이미 점심 학식알림을 받아보고 계시네요!\n'
-            '만약 점심 학식 알림을 더이상 받지않으시려면,\n'
-            '[/cafeteria_lunch_stop]을 눌러주세요.'
+            '이미 {} 학식알림을 받아보고 계시네요!\n'
+            '만약 {} 학식 알림을 더이상 받지않으시려면,\n'
+            '[/cafeteria_{}_stop]을 눌러주세요.'.format(ko_name, ko_name, name)
         )
         update.message.reply_text(
-            '오늘의 점심 학식은\n{}입니다.'.format(today_meal)
+            '오늘의 {} 학식은\n{}입니다.'.format(ko_name, today_meal)
         )
     else:
-        guest.meal_time.add(lunch)
+        guest.meal_time.add(meal_time)
+        guest.options.add(option)
+        guest.save()
         update.message.reply_text(
-            '점심 학식 알림이 등록되었습니다!\n'
-            '매일 12시에 오늘의 아침학식을 알려드릴게요.\n'
-            '만약 점심 학식 알림을 더이상 받지않으시려면,\n'
-            '[/cafeteria_lunch_stop]을 눌러주세요.'
+            '{} 학식 알림이 등록되었습니다!\n'
+            '매일 오늘의 {}학식을 알려드릴게요.\n'
+            '만약 {} 학식 알림을 더이상 받지않으시려면,\n'
+            '[/cafeteria_{}_stop]을 눌러주세요.'.format(ko_name, ko_name, ko_name, name)
         )
         update.message.reply_text(
-            '오늘의 점심 학식은\n{}입니다.'.format(today_meal)
+            '오늘의 {} 학식은\n{}입니다.'.format(ko_name, today_meal)
         )
 
 def cafeteria_lunch_stop(bot, update):
+    name = 'lunch'
+    ko_name = '점심'
     telegram_id = update.message['chat']['id']
     guest = Guest.objects.get(telegram_id=telegram_id)
-    lunch = CafeMealTime.objects.get(meal='lunch')
-    if lunch in guest.meal_time:
-        guest.meal_time.remove(lunch)
+    option = Option.objects.get(name='cafeteria_{}'.format(name))
+    meal_time = CafeMealTime.objects.get(meal=name)
+    if meal_time in guest.meal_time.all():
+        guest.meal_time.remove(meal_time)
+        guest.options.remove(option)
         update.message.reply_text(
-            '점심 학식알림을 끄셨습니다.\n'
-            '만약 점심 학식 알림을 다시 받으시려면,\n'
-            '[/cafeteria_lunch]을 눌러주세요.'
+            '{} 학식알림을 끄셨습니다.\n'
+            '만약 {} 학식 알림을 다시 받으시려면,\n'
+            '[/cafeteria_{}]을 눌러주세요.'.format(ko_name,ko_name,name)
         )
     else:
-        guest.meal_time.add(lunch)
         update.message.reply_text(
-            '아직 점심 학식알림을 켜지 않으셨습니다!\n'
-            '매일 12시에 점심 학식 알림을 받으시려면,\n'
-            '[/cafeteria_lunch]을 눌러주세요.'
+            '아직 {} 학식알림을 켜지 않으셨습니다!\n'
+            '매일 {}학식 알림을 받으시려면,\n'
+            '[/cafeteria_{}]을 눌러주세요.'.format(ko_name, ko_name, name)
         )
 
 def cafeteria_dinner(bot, update):
+    name = 'dinner'
+    ko_name = '저녁'
     telegram_id = update.message['chat']['id']
     guest = Guest.objects.get(telegram_id=telegram_id)
-    dinner = CafeMealTime.objects.get(meal='dinner')
+    option = Option.objects.get(name='cafeteria_{}'.format(name))
+    meal_time = CafeMealTime.objects.get(meal=name)
     today_meal = CafeMenuInfo.objects.get(date=datetime.now()).get_menu()[2] # 0, 1, 2
-    if dinner in guest.meal_time:
+    if meal_time in guest.meal_time.all():
         update.message.reply_text(
-            '이미 저녁 학식알림을 받아보고 계시네요!\n'
-            '만약 저녁 학식 알림을 더이상 받지않으시려면,\n'
-            '[/cafeteria_dinner_stop]을 눌러주세요.'
+            '이미 {} 학식알림을 받아보고 계시네요!\n'
+            '만약 {} 학식 알림을 더이상 받지않으시려면,\n'
+            '[/cafeteria_{}_stop]을 눌러주세요.'.format(ko_name, ko_name, name)
         )
         update.message.reply_text(
-            '오늘의 저녁 학식은\n{}입니다.'.format(today_meal)
+            '오늘의 {} 학식은\n{}입니다.'.format(ko_name, today_meal)
         )
     else:
-        guest.meal_time.add(dinner)
+        guest.meal_time.add(meal_time)
+        guest.options.add(option)
+        guest.save()
         update.message.reply_text(
-            '저녁 학식 알림이 등록되었습니다!\n'
-            '매일 저녁 5시에 오늘의 아침학식을 알려드릴게요.\n'
-            '만약 저녁 학식 알림을 더이상 받지않으시려면,\n'
-            '[/cafeteria_dinner_stop]을 눌러주세요.'
+            '{} 학식 알림이 등록되었습니다!\n'
+            '매일 오늘의 {}학식을 알려드릴게요.\n'
+            '만약 {} 학식 알림을 더이상 받지않으시려면,\n'
+            '[/cafeteria_{}_stop]을 눌러주세요.'.format(ko_name, ko_name, ko_name, name)
         )
         update.message.reply_text(
-            '오늘의 저녁 학식은\n{}입니다.'.format(today_meal)
+            '오늘의 {} 학식은\n{}입니다.'.format(ko_name, today_meal)
         )
 
 def cafeteria_dinner_stop(bot, update):
+    name = 'dinner'
+    ko_name = '저녁'
     telegram_id = update.message['chat']['id']
     guest = Guest.objects.get(telegram_id=telegram_id)
-    dinner = CafeMealTime.objects.get(meal='dinner')
-    if dinner in guest.meal_time:
-        guest.meal_time.remove(dinner)
+    option = Option.objects.get(name='cafeteria_{}'.format(name))
+    meal_time = CafeMealTime.objects.get(meal=name)
+    if meal_time in guest.meal_time.all():
+        guest.meal_time.remove(meal_time)
+        guest.options.remove(option)
         update.message.reply_text(
-            '저녁 학식알림을 끄셨습니다.\n'
-            '만약 저녁 학식 알림을 다시 받으시려면,\n'
-            '[/cafeteria_dinner]을 눌러주세요.'
+            '{} 학식알림을 끄셨습니다.\n'
+            '만약 {} 학식 알림을 다시 받으시려면,\n'
+            '[/cafeteria_{}]을 눌러주세요.'.format(ko_name,ko_name,name)
         )
     else:
-        guest.meal_time.add(dinner)
         update.message.reply_text(
-            '아직 저녁 학식알림을 켜지 않으셨습니다!\n'
-            '매일 저녁 5시에 저녁 학식 알림을 받으시려면,\n'
-            '[/cafeteria_dinner]을 눌러주세요.'
+            '아직 {} 학식알림을 켜지 않으셨습니다!\n'
+            '매일 {}학식 알림을 받으시려면,\n'
+            '[/cafeteria_{}]을 눌러주세요.'.format(ko_name, ko_name, name)
         )
-
-
 
 updater = Updater(settings.TELEGRAM_TOKEN)
 
