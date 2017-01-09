@@ -6,10 +6,8 @@ django.setup()
 from django.conf import settings
 import telegram
 
-
 from webchecker.models import ParsedData
 from webchecker.models import Guest
-from webchecker.models import Option
 from webchecker.web_parser import _get_contents
 
 news = _get_contents(settings.SNUE_ID, settings.SNUE_PW)
@@ -36,4 +34,5 @@ def push_telegram():
                         )
                     )
 
-push_telegram()
+if __name__=='__main__':
+    push_telegram()
