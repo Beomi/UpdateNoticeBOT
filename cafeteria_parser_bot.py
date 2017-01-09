@@ -7,6 +7,8 @@ from webchecker.cafeteria_parser import _get_menus
 
 from webchecker.models import CafeMenuInfo
 
+# execute every week, monday morning at 7:30am
+
 def update_cafe_menu_info():
     new_menus = _get_menus()
     for menu_i in new_menus:
