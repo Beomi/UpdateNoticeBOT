@@ -29,11 +29,11 @@ class Guest(TimeStampModel):
 
     @property
     def using_options(self):
-        return Option.objects.filter(guest__options__guest=self)
+        return self.options.all()
 
     @property
     def unused_options(self):
-        return Option.objects.exclude(guest__options__guest=self)
+        return Option.objects.exclude(pk__in=self.using_options)
 
 
 class Option(TimeStampModel):
