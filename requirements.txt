@@ -5,6 +5,7 @@ bs4==0.0.1
 celery==4.0.2
 certifi==2016.9.26
 Django==1.10.4
+django-bootstrap3==8.0.0
 django-celery-beat==1.0.1
 django-celery-results==1.0.1
 django-debug-toolbar==1.6

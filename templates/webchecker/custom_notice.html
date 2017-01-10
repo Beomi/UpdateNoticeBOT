@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load static from staticfiles %}
+{% block body %}
+    <div id="app" class="container">
+        <div>
+            <h1 class="h1">
+                [[ title ]]
+            </h1>
+        </div>
+        <div>
+            <form id="msg" method="">
+                {% csrf_token %}
+                {% bootstrap_form form layout='inline' %}
+                {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="loading" style="margin-top: 25px; display:none; text-align: center">
+        <img src="{% static 'image/loading_HiDPI.gif' %}" style="width: 99px; display: inline-block">
+    </div>
+
+
+    <script>
+    new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data: {
+            title: '전체 공지 보내기'
+        }
+    });
+
+    $('#msg').submit(function (e) {
+        e.preventDefault();
+        alert('텔레그램 공지를 보내는 중입니다.. 잠시만 기다려주세요.');
+        $('.btn').hide();
+        $('.loading').show();
+        $.ajax({
+            url : window.location.href,
+            type: "POST",
+            data: $('#msg').serialize(),
+            success : function(json) {
+                alert(json['message']);
+                location.reload()
+            }
+        })
+    })
+    </script>
+{% endblock %}
