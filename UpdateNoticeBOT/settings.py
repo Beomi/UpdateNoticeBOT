@@ -50,7 +50,7 @@ SECRET_KEY = 'u(pf0ejbv!cu45fn_ir(fr4uu8x5lvx0wm76##-s7asc&vhs%3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bot.testi.kr',]
 
 
 # Application definition
