@@ -14,7 +14,7 @@ def custom_notice(request):
         form = CustomNoticeForm(request.POST)
         if form.is_valid():
             bot = telegram.Bot(token=settings.TELEGRAM_TOKEN)
-            guests = Guest.objects.all()
+            guests = Guest.objects.filter(options='student_union_notice')
             for guest in guests:
                 bot.sendMessage(
                     chat_id=guest.telegram_id,
