@@ -288,17 +288,25 @@ def student_union_notice_off(bot, update):
 # Bot register
 updater = Updater(settings.TELEGRAM_TOKEN)
 
+# Telegram defaults
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(CommandHandler('도움말', help))
+# 학교공지
+updater.dispatcher.add_handler(CommandHandler('학교공지', notice))
 updater.dispatcher.add_handler(CommandHandler('학교공지_ON', notice))
 updater.dispatcher.add_handler(CommandHandler('학교공지_OFF', notice_stop))
+# 학식알림
+updater.dispatcher.add_handler(CommandHandler('아침학식알림', cafeteria_morning))
 updater.dispatcher.add_handler(CommandHandler('아침학식알림_ON', cafeteria_morning))
 updater.dispatcher.add_handler(CommandHandler('아침학식알림_OFF', cafeteria_morning_stop))
+updater.dispatcher.add_handler(CommandHandler('점심학식알림', cafeteria_lunch))
 updater.dispatcher.add_handler(CommandHandler('점심학식알림_ON', cafeteria_lunch))
 updater.dispatcher.add_handler(CommandHandler('점심학식알림_OFF', cafeteria_lunch_stop))
+updater.dispatcher.add_handler(CommandHandler('저녁학식알림', cafeteria_dinner))
 updater.dispatcher.add_handler(CommandHandler('저녁학식알림_ON', cafeteria_dinner))
 updater.dispatcher.add_handler(CommandHandler('저녁학식알림_OFF', cafeteria_dinner_stop))
-updater.dispatcher.add_handler(CommandHandler('학교공지_OFF', notice_stop))
+# 총학/비대위 공지
+updater.dispatcher.add_handler(CommandHandler('비대위공지', student_union_notice_on))
 updater.dispatcher.add_handler(CommandHandler('비대위공지_ON', student_union_notice_on))
 updater.dispatcher.add_handler(CommandHandler('비대위공지_OFF', student_union_notice_off))
 
